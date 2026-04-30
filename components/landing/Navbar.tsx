@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { Menu, X, Zap } from "lucide-react"
 
 // ─── Navbar ────────────────────────────────────────────────────────────────
@@ -36,18 +35,13 @@ export function Navbar() {
   // and client (optimised img), so we suppress the warning at the container level.
   const imageLogo = (
     <div className="flex items-center gap-2.5" suppressHydrationWarning>
-      <Image
-        src="/logo/logo.png"
+      <img
+        src="/logo.png"
         alt="VentureLens"
-        width={140}
-        height={36}
-        priority
-        className="h-9 w-auto object-contain"
-        suppressHydrationWarning
+        className="w-10 h-10 object-contain drop-shadow-lg"
       />
-      <span className="font-bold text-lg tracking-tight">
-        <span className="text-btn">Venture</span>
-        <span className="text-accent-yellow">Lens</span>
+      <span className="font-bold text-xl tracking-tight text-white">
+        VentureLens
       </span>
     </div>
   )

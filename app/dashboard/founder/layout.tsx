@@ -1,7 +1,9 @@
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
-import { Sidebar } from "@/components/dashboard/Sidebar"
-import { LayoutDashboard, Lightbulb, Users, PlusCircle } from "lucide-react"
+import SidebarNavigation from "@/components/dashboard/SidebarNavigation"
+import HeaderBar from "@/components/dashboard/HeaderBar"
+import { getIdeasByFounder } from "@/lib/db/ideas"
+import { getApplicantsCountForFounder } from "@/lib/db/applications"
 
 export default async function FounderDashboardLayout({
   children,
@@ -13,19 +15,36 @@ export default async function FounderDashboardLayout({
   if (!session?.user) redirect("/login")
   if (session.user.role !== "founder") redirect("/dashboard")
 
-  const links = [
-    { label: "Overview", href: "/dashboard/founder", icon: <LayoutDashboard className="w-5 h-5" /> },
-    { label: "My Ideas", href: "/dashboard/founder/ideas", icon: <Lightbulb className="w-5 h-5" /> },
-    { label: "Submit Idea", href: "/dashboard/founder/ideas/new", icon: <PlusCircle className="w-5 h-5" /> },
-    { label: "Applicants", href: "/dashboard/founder/applicants", icon: <Users className="w-5 h-5" /> },
-  ]
+  const founderId = session.user.id
+  const [ideas, applicantsCount] = await Promise.all([
+    getIdeasByFounder(founderId),
+    getApplicantsCountForFounder(founderId)
+  ])
+
+  const maxIdeas = 20
+  const creditUsagePercent = Math.min(Math.round((ideas.length / maxIdeas) * 100), 100)
+  const creditUsageText = `${ideas.length}/${maxIdeas} ideas`
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <Sidebar role="founder" email={session.user.email!} links={links} />
-      
-      <main className="flex-1 lg:pl-64 flex flex-col min-h-screen">
-        <div className="flex-1 p-6 lg:p-10 max-w-6xl mx-auto w-full animate-in fade-in duration-500">
+    <div className="flex min-h-screen bg-[#213722]">
+      {/* Background Effects */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-[15%] -left-[10%] w-[500px] h-[500px] bg-[#EAED87]/5 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[5%] right-[2%] w-[400px] h-[400px] bg-[#F86624]/5 rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* Sidebar */}
+      <SidebarNavigation 
+        role="founder" 
+        applicantsCount={applicantsCount}
+        creditUsagePercent={creditUsagePercent}
+        creditUsageText={creditUsageText}
+      />
+
+      {/* Main Content */}
+      <main className="flex-1 ml-72 relative z-10 overflow-x-hidden flex flex-col">
+        <HeaderBar userName={session.user.name || "Founder"} />
+        <div className="p-8 md:p-12 max-w-7xl mx-auto w-full flex-1">
           {children}
         </div>
       </main>
