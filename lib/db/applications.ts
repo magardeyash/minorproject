@@ -57,3 +57,13 @@ export async function updateApplicationStatus(id: string, status: ApplicationSta
     UPDATE applications SET status = ${status} WHERE id = ${id}
   `
 }
+
+export async function getApplicantsCountForFounder(founderId: string): Promise<number> {
+  const rows = await sql`
+    SELECT COUNT(*) as count
+    FROM applications a
+    JOIN ideas i ON a.idea_id = i.id
+    WHERE i.founder_id = ${founderId}
+  `
+  return parseInt(rows[0].count, 10) || 0
+}
