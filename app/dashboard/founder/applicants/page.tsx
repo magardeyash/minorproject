@@ -2,9 +2,8 @@ import { auth } from "@/auth"
 import { getIdeasByFounder } from "@/lib/db/ideas"
 import { getApplicationsForIdea, DbApplication } from "@/lib/db/applications"
 import { getUserById } from "@/lib/db/users"
-import { DataTable } from "@/components/dashboard/DataTable"
-import { StatusBadge } from "@/components/dashboard/StatusBadge"
-import { updateApplicationStatusAction } from "@/actions/applications"
+import { ApplicantsClient } from "@/components/dashboard/ApplicantsClient"
+import { ChevronRight, Grid, List, UserPlus } from "lucide-react"
 
 export const metadata = { title: "Applicants — VentureLens" }
 
@@ -25,67 +24,41 @@ export default async function FounderApplicantsPage() {
 
   allApplications.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
 
-  const data = await Promise.all(allApplications.map(async (app) => {
+  const allApplicationsWithUsers = await Promise.all(allApplications.map(async (app) => {
     const user = await getUserById(app.employee_id)
-
-    async function accept() {
-      "use server"
-      await updateApplicationStatusAction(app.id, "accepted")
-    }
-    async function reject() {
-      "use server"
-      await updateApplicationStatusAction(app.id, "rejected")
-    }
-
-    return [
-      <div key={`user-${app.id}`}>
-        <div className="font-bold text-white">{user?.name || "Unknown User"}</div>
-        <div className="text-xs text-accent-muted">{user?.email}</div>
-      </div>,
-      <div key={`idea-${app.id}`} className="text-sm font-medium text-accent-yellow max-w-[150px] truncate" title={app.ideaTitle}>
-        {app.ideaTitle}
-      </div>,
-      <div key={`skills-${app.id}`} className="text-xs text-accent-muted">
-        <span className="capitalize text-white">{user?.experience || "N/A"}</span>
-        {user?.skills && (
-          <div className="mt-1 truncate max-w-[150px]" title={user.skills.join(", ")}>
-            {user.skills.join(", ")}
-          </div>
-        )}
-      </div>,
-      <div key={`msg-${app.id}`} className="text-sm text-accent-muted max-w-[200px] whitespace-normal line-clamp-2" title={app.message || ""}>
-        {app.message}
-      </div>,
-      <StatusBadge key={`status-${app.id}`} status={app.status} />,
-      <div key={`actions-${app.id}`} className="flex gap-2">
-        {app.status === "pending" && (
-          <>
-            <form action={accept}>
-              <button type="submit" className="text-xs font-semibold px-3 py-1.5 rounded-lg border text-success border-success/20 hover:bg-success/10 transition-colors">
-                Accept
-              </button>
-            </form>
-            <form action={reject}>
-              <button type="submit" className="text-xs font-semibold px-3 py-1.5 rounded-lg border text-error border-error/20 hover:bg-error/10 transition-colors">
-                Reject
-              </button>
-            </form>
-          </>
-        )}
-      </div>,
-    ]
+    return { app, user }
   }))
 
-  const columns = ["Applicant", "Idea", "Experience/Skills", "Message", "Status", "Actions"]
+  // Filter out any null users
+  const validAppsWithUsers = allApplicationsWithUsers.filter((data): data is { app: AppWithIdea, user: NonNullable<typeof data.user> } => data.user !== null);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-accent-yellow">Applicants</h1>
-        <p className="text-sm text-accent-muted mt-1">Review contributors who want to join your startups.</p>
+    <div className="w-full">
+      {/* Breadcrumbs & Title */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+          <div>
+              <div className="flex items-center gap-2 text-white/30 text-xs font-bold uppercase tracking-widest mb-3">
+                  <span>Dashboard</span>
+                  <ChevronRight className="w-3 h-3" />
+                  <span className="text-[#EAED87]">Applicants</span>
+              </div>
+              <h2 className="clash text-4xl font-semibold tracking-tight">Candidate Pipeline</h2>
+          </div>
+          <div className="flex items-center gap-4">
+              <button className="glass-panel p-3 rounded-xl flex items-center justify-center text-white/60 hover:text-[#EAED87] hover:bg-white/5 transition-all">
+                  <Grid className="w-5 h-5" />
+              </button>
+              <button className="glass-panel p-3 rounded-xl flex items-center justify-center text-white/60 hover:text-[#EAED87] hover:bg-white/5 transition-all">
+                  <List className="w-5 h-5" />
+              </button>
+              <button className="btn-contrast px-6 py-3 rounded-xl flex items-center gap-2 font-bold text-sm shadow-xl">
+                  <UserPlus className="w-5 h-5" />
+                  Hire Talent
+              </button>
+          </div>
       </div>
 
-      <DataTable columns={columns} data={data} emptyMessage="No applications received yet." />
+      <ApplicantsClient ideas={ideas} allApplicationsWithUsers={validAppsWithUsers} />
     </div>
   )
 }
