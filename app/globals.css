@@ -1,8 +1,12 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@500,600,700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-background: #213722;
   --color-foreground: #EAED87;
+  --color-foundation: #213722;
+  --color-detailing: #EAED87;
+  --color-contrast: #F86624;
   --color-bg-secondary: #1a2d1b;
   --color-card: #2a4a2c;
   --color-card-hover: #2f5231;
@@ -41,7 +45,36 @@ body {
 
 /* Glassmorphism Utilities */
 .glass-panel {
-  @apply bg-card/60 backdrop-blur-xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@layer utilities {
+  .clash {
+    font-family: 'ClashGrotesk', sans-serif;
+  }
+  
+  .btn-contrast {
+    background-color: var(--color-contrast);
+    color: white;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .btn-contrast:hover {
+    background-color: #ff783d;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -6px rgba(248, 102, 36, 0.35);
+  }
+  
+  .stat-icon {
+    background: rgba(234, 237, 135, 0.1);
+    color: var(--color-detailing);
+  }
+
+  .custom-scrollbar::-webkit-scrollbar { width: 4px; } 
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; } 
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
 }
 
 .glass-input {
