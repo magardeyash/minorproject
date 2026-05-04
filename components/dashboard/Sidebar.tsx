@@ -137,20 +137,20 @@ export function Sidebar({ role, userName, links }: SidebarProps) {
                 onClick={() => handleNavClick(link.href)}
                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
-                  transition-all duration-150 group relative
+                  transition-all duration-300 group relative
                   ${isActive
-                    ? "bg-btn/15 text-accent-yellow border border-btn/20 shadow-sm"
+                    ? "bg-btn/15 text-accent-yellow border border-btn/20 shadow-[0_0_20px_rgba(248,198,34,0.1)]"
                     : "text-accent-muted hover:bg-white/5 hover:text-white border border-transparent"
                   }
                 `}
               >
                 {/* Active indicator bar */}
                 {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-btn rounded-r-full" />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-btn rounded-r-full shadow-[0_0_12px_rgba(248,198,34,0.6)]" />
                 )}
 
                 {/* Icon wrapper */}
-                <span className={`shrink-0 transition-transform duration-150 ${isActive ? "text-btn" : "group-hover:scale-110"}`}>
+                <span className={`shrink-0 transition-transform duration-300 ${isActive ? "text-btn scale-110" : "group-hover:scale-110 group-hover:text-accent-yellow"}`}>
                   {link.icon}
                 </span>
 

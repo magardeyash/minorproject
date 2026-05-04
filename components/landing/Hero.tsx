@@ -7,14 +7,14 @@ export function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       {/* Ambient gradient orbs */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-btn/10 blur-[120px] animate-pulse" />
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-btn/5 blur-[120px] animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-yellow/5 blur-[100px] animate-pulse [animation-delay:1.5s]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-card/40 blur-[80px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-card/20 blur-[80px]" />
       </div>
 
       {/* Subtle grid overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: "linear-gradient(#F8C622 1px,transparent 1px),linear-gradient(90deg,#F8C622 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{ backgroundImage: "linear-gradient(#34D399 1px,transparent 1px),linear-gradient(90deg,#34D399 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
 
       <div className="relative max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
         {/* Left: Copy */}
@@ -27,23 +27,23 @@ export function Hero() {
 
           <h1 className="text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.08] tracking-tight">
             Validate Your<br />
-            <span className="text-btn">Startup Idea</span><br />
+            <span className="text-gradient">Startup Idea</span><br />
             <span className="text-accent-yellow">with AI</span>
           </h1>
 
           <p className="text-lg text-accent-muted max-w-lg leading-relaxed">
-            Get a data-driven <strong className="text-accent-yellow">Venture Score</strong>, competitive analysis,
+            Get a data-driven <strong className="text-accent-yellow font-bold">Venture Score</strong>, competitive analysis,
             and connect with the right contributors — before you write a single line of code.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
             <Link href="/register"
-              className="group inline-flex items-center justify-center gap-2 bg-btn hover:bg-btn-hover text-btn-text font-bold px-8 py-4 rounded-2xl shadow-[0_0_24px_rgba(248,198,34,0.35)] hover:shadow-[0_0_36px_rgba(248,198,34,0.5)] transition-all duration-300 text-base">
+              className="btn-primary text-base">
               Get Started Free
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
             <a href="#how-it-works"
-              className="inline-flex items-center justify-center gap-2 border border-border-subtle text-accent-muted hover:text-accent-yellow hover:border-btn/40 font-semibold px-8 py-4 rounded-2xl transition-all duration-300 text-base">
+              className="btn-secondary text-base">
               See How It Works
             </a>
           </div>
@@ -68,7 +68,7 @@ export function Hero() {
         </div>
 
         {/* Right: Mock Venture Score Card */}
-        <div className="relative flex justify-center lg:justify-end">
+        <div className="relative flex justify-center lg:justify-end animate-float">
           <div className="glass-panel rounded-3xl p-8 w-full max-w-sm space-y-6 border border-btn/10">
             {/* Header */}
             <div className="flex items-center justify-between">
@@ -86,11 +86,11 @@ export function Hero() {
               <div className="relative inline-flex items-center justify-center w-32 h-32">
                 <svg className="absolute" width="128" height="128" viewBox="0 0 128 128">
                   <circle cx="64" cy="64" r="56" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="10" />
-                  <circle cx="64" cy="64" r="56" fill="none" stroke="#F8C622" strokeWidth="10"
+                  <circle cx="64" cy="64" r="56" fill="none" stroke="#10B981" strokeWidth="10"
                     strokeDasharray={`${2 * Math.PI * 56 * 0.84} ${2 * Math.PI * 56}`}
                     strokeDashoffset={2 * Math.PI * 56 * 0.25}
                     strokeLinecap="round" transform="rotate(-90 64 64)"
-                    style={{ filter: "drop-shadow(0 0 8px rgba(248,198,34,0.6))" }} />
+                    style={{ filter: "drop-shadow(0 0 8px rgba(16,185,129,0.4))" }} />
                 </svg>
                 <div className="text-center z-10">
                   <div className="text-4xl font-black text-btn">84</div>

@@ -34,19 +34,19 @@ export function Navbar() {
   )
 
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <nav className="fixed top-4 inset-x-0 z-50 px-6 pointer-events-none">
+      <div className="max-w-7xl mx-auto glass-panel rounded-2xl h-16 flex items-center justify-between px-6 pointer-events-auto border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
 
         {/* Logo */}
-        <Link href="/" className="group">
+        <Link href="/" className="group transition-transform hover:scale-105 active:scale-95">
           {logoContent}
         </Link>
 
         {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((l) => (
             <a key={l.href} href={l.href}
-              className="text-sm text-accent-muted hover:text-accent-yellow transition-colors duration-200">
+              className="text-sm font-medium text-accent-muted hover:text-accent-yellow hover:bg-white/5 px-4 py-2 rounded-xl transition-all duration-300">
               {l.label}
             </a>
           ))}
@@ -55,37 +55,37 @@ export function Navbar() {
         {/* CTA buttons */}
         <div className="hidden md:flex items-center gap-3">
           <Link href="/login"
-            className="text-sm px-4 py-2 rounded-xl border border-border-subtle text-accent-muted hover:text-accent-yellow hover:border-btn/40 transition-all duration-200">
+            className="text-sm font-semibold px-5 py-2 rounded-xl border border-white/10 text-accent-muted hover:text-accent-yellow hover:bg-white/5 transition-all duration-300">
             Login
           </Link>
           <Link href="/register"
-            className="text-sm px-5 py-2 rounded-xl bg-btn text-btn-text font-semibold hover:bg-btn-hover shadow-[0_0_16px_rgba(248,198,34,0.25)] hover:shadow-[0_0_24px_rgba(248,198,34,0.4)] transition-all duration-200">
+            className="btn-primary text-sm px-6 py-2 shadow-[0_0_20px_rgba(248,198,34,0.3)]">
             Get Started
           </Link>
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden text-accent-yellow p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
+        <button className="md:hidden text-accent-yellow p-2 hover:bg-white/5 rounded-xl transition-colors" onClick={() => setOpen(!open)} aria-label="Toggle menu">
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="md:hidden border-t border-white/5 bg-background/95 backdrop-blur-xl px-6 py-4 space-y-3">
+        <div className="md:hidden mt-2 glass-panel rounded-2xl p-4 space-y-3 pointer-events-auto animate-in slide-in-from-top-2 duration-300">
           {navLinks.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-              className="block text-sm text-accent-muted hover:text-accent-yellow transition-colors py-1.5">
+              className="block text-sm font-medium text-accent-muted hover:text-accent-yellow hover:bg-white/5 px-4 py-2.5 rounded-xl transition-all">
               {l.label}
             </a>
           ))}
           <div className="pt-2 flex flex-col gap-2 border-t border-white/5">
             <Link href="/login" onClick={() => setOpen(false)}
-              className="text-center text-sm py-2.5 rounded-xl border border-border-subtle text-accent-muted">
+              className="text-center text-sm font-semibold py-3 rounded-xl border border-white/10 text-accent-muted">
               Login
             </Link>
             <Link href="/register" onClick={() => setOpen(false)}
-              className="text-center text-sm py-2.5 rounded-xl bg-btn text-btn-text font-semibold">
+              className="btn-primary py-3">
               Get Started
             </Link>
           </div>

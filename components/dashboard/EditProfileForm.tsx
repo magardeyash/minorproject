@@ -69,7 +69,7 @@ export function EditProfileForm({ user }: Props) {
 
       {/* Toast notification */}
       {showSuccess && (
-        <div className="flex items-center gap-3 px-5 py-3.5 bg-success/10 border border-success/30 rounded-2xl text-success text-sm font-medium animate-in slide-in-from-top-2 duration-300">
+        <div className="flex items-center gap-3 px-5 py-3.5 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-400 text-sm font-medium animate-in slide-in-from-top-2 duration-300">
           <CheckCircle className="w-4 h-4 shrink-0" />
           {state.message}
         </div>

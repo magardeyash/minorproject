@@ -31,23 +31,20 @@ export function SelectInput({ label, name, value, onChange, options, placeholder
           disabled={disabled}
           required={required}
           className={`w-full h-12 rounded-2xl px-4 pr-10 appearance-none
-            bg-bg-secondary/50 border backdrop-blur-md text-sm transition-all duration-300 outline-none text-white
-            ${error
-              ? "border-error focus:border-error"
-              : "border-border-subtle focus:border-focus focus:ring-1 focus:ring-focus"
-            }
+            glass-input text-sm transition-all duration-300 outline-none text-white
+            ${error ? "border-error focus:border-error focus:ring-error" : ""}
             ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
         >
-          <option value="" disabled>{placeholder}</option>
+          <option value="" disabled className="bg-card">{placeholder}</option>
           {options.map((opt) => (
             <option key={opt.value} value={opt.value} className="bg-card text-white">
               {opt.label}
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+        <ChevronDown className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
       </div>
-      {error && <p className="text-xs text-error mt-1">{error}</p>}
+      {error && <p className="text-xs text-error mt-1 pl-1">{error}</p>}
     </div>
   )
 }

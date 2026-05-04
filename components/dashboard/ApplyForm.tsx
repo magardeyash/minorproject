@@ -39,19 +39,19 @@ export function ApplyForm({ ideaId }: { ideaId: string }) {
           onChange={e => setMessage(e.target.value)}
           type="text"
           placeholder="Why are you a good fit?"
-          className="flex-1 bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-success/50"
+          className="glass-input flex-1 rounded-xl px-4 py-2 text-sm"
           required
           minLength={10}
         />
         <button
           type="submit"
           disabled={isPending}
-          className="bg-success text-bg-secondary px-4 py-2 rounded-lg text-sm font-bold hover:bg-success/90 transition-colors disabled:opacity-60"
+          className="btn-primary px-5 py-2 rounded-xl text-sm"
         >
           {isPending ? "…" : "Apply"}
         </button>
       </div>
-      {error && <p className="text-error text-xs">{error}</p>}
+      {error && <p className="text-error text-xs font-medium pl-1">{error}</p>}
     </form>
   )
 }

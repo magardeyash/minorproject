@@ -8,9 +8,9 @@ interface VentureScoreGaugeProps {
 }
 
 function scoreColor(score: number): string {
-  if (score >= 70) return "#6bcb77"
-  if (score >= 50) return "#F8C662"
-  return "#ff6b6b"
+  if (score >= 70) return "#10B981" // Emerald
+  if (score >= 50) return "#34D399" // Mint
+  return "#EF4444" // Red/Error
 }
 
 function scoreLabel(score: number): string {
@@ -59,96 +59,122 @@ export function VentureScoreGauge({ score, size = 220 }: VentureScoreGaugeProps)
   const fillPath = clampedScore > 0 ? arcPath(startAngle, endAngle) : ""
 
   // FIX: increase SVG height so arc doesn't clip or overlap text
-  const svgHeight = size * 0.85
+  const svgHeight = size * 0.9
 
   // FIX: reposition text safely inside arc
-  const scoreY = cy - radius * 0.1
-  const subY = scoreY + size * 0.12
+  const scoreY = cy - radius * 0.05
+  const subY = scoreY + size * 0.14
 
   return (
-    <div className="flex flex-col items-center gap-3">
-      <svg
-        width={size}
-        height={svgHeight}
-        viewBox={`0 0 ${size} ${svgHeight}`}
-        className="overflow-visible"
-      >
-        {/* Track */}
-        <path
-          d={trackPath}
-          fill="none"
-          stroke="rgba(255,255,255,0.07)"
-          strokeWidth={r(strokeWidth)}
-          strokeLinecap="round"
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative group">
+        {/* Glow background */}
+        <div 
+          className="absolute inset-0 blur-[40px] opacity-20 transition-opacity duration-500 group-hover:opacity-30"
+          style={{ backgroundColor: color }}
         />
 
-        {/* Tick marks */}
-        {[0, 25, 50, 70, 100].map((tick) => {
-          const angle = startAngle + sweepAngle * (tick / 100)
-          const rad = ((angle - 90) * Math.PI) / 180
-          const inner = radius - strokeWidth * 0.75
-          const outer = radius + strokeWidth * 0.05
-          return (
-            <line
-              key={tick}
-              x1={r(cx + inner * Math.cos(rad))}
-              y1={r(cy + inner * Math.sin(rad))}
-              x2={r(cx + outer * Math.cos(rad))}
-              y2={r(cy + outer * Math.sin(rad))}
-              stroke="rgba(255,255,255,0.2)"
-              strokeWidth={1.5}
-              strokeLinecap="round"
-            />
-          )
-        })}
-
-        {/* Fill arc */}
-        {fillPath && (
+        <svg
+          width={size}
+          height={svgHeight}
+          viewBox={`0 0 ${size} ${svgHeight}`}
+          className="overflow-visible relative z-10"
+        >
+          {/* Track */}
           <path
-            d={fillPath}
+            d={trackPath}
             fill="none"
-            stroke={color}
+            stroke="rgba(255,255,255,0.05)"
             strokeWidth={r(strokeWidth)}
             strokeLinecap="round"
-            style={{
-              filter: `drop-shadow(0 0 ${r(strokeWidth * 0.55)}px ${color}80)`,
-              transition: "stroke 0.5s ease",
-            }}
           />
-        )}
 
-        {/* Score */}
-        <text
-          x={cx}
-          y={scoreY}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize={size * 0.2}
-          fontWeight="bold"
-          fill={color}
-        >
-          {clampedScore}
-        </text>
+          {/* Tick marks */}
+          {[0, 25, 50, 75, 100].map((tick) => {
+            const angle = startAngle + sweepAngle * (tick / 100)
+            const rad = ((angle - 90) * Math.PI) / 180
+            const inner = radius - strokeWidth * 0.8
+            const outer = radius + strokeWidth * 0.2
+            return (
+              <line
+                key={tick}
+                x1={r(cx + inner * Math.cos(rad))}
+                y1={r(cy + inner * Math.sin(rad))}
+                x2={r(cx + outer * Math.cos(rad))}
+                y2={r(cy + outer * Math.sin(rad))}
+                stroke="rgba(255,255,255,0.15)"
+                strokeWidth={2}
+                strokeLinecap="round"
+              />
+            )
+          })}
 
-        {/* /100 */}
-        <text
-          x={cx}
-          y={subY}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize={size * 0.065}
-          fill="rgba(255,255,255,0.35)"
-        >
-          / 100
-        </text>
-      </svg>
+          {/* Fill arc */}
+          {fillPath && (
+            <>
+              {/* Outer glow arc */}
+              <path
+                d={fillPath}
+                fill="none"
+                stroke={color}
+                strokeWidth={r(strokeWidth * 1.5)}
+                strokeLinecap="round"
+                className="opacity-20 blur-sm"
+              />
+              {/* Main arc */}
+              <path
+                d={fillPath}
+                fill="none"
+                stroke={color}
+                strokeWidth={r(strokeWidth)}
+                strokeLinecap="round"
+                style={{
+                  filter: `drop-shadow(0 0 ${r(strokeWidth * 0.6)}px ${color})`,
+                  transition: "all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                }}
+              />
+            </>
+          )}
 
-      <div className="text-center">
-        <div className="text-lg font-bold tracking-wide" style={{ color }}>
-          {label}
+          {/* Score */}
+          <text
+            x={cx}
+            y={scoreY}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={size * 0.22}
+            className="font-black tracking-tighter"
+            fill="white"
+            style={{ filter: `drop-shadow(0 0 12px ${color}40)` }}
+          >
+            {clampedScore}
+          </text>
+
+          {/* /100 */}
+          <text
+            x={cx}
+            y={subY}
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fontSize={size * 0.07}
+            className="font-bold opacity-40"
+            fill="white"
+          >
+            SCORE
+          </text>
+        </svg>
+      </div>
+
+      <div className="text-center animate-fade-in-up">
+        <div className="inline-block px-4 py-1.5 rounded-full bg-white/5 border border-white/10 shadow-sm">
+          <span className="text-sm font-bold tracking-widest uppercase" style={{ color }}>
+            {label}
+          </span>
         </div>
-        <div className="text-xs text-white/40 mt-0.5">Venture Score</div>
+        <div className="text-[10px] font-bold text-white/30 mt-2 uppercase tracking-widest">
+          AI Venture Analysis
+        </div>
       </div>
     </div>
   )
-}
+  }

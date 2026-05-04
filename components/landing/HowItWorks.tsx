@@ -50,10 +50,10 @@ export function HowItWorks() {
             <div key={s.step} className="relative group">
               {/* Connector line */}
               {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[calc(100%-0px)] w-full h-px bg-gradient-to-r from-btn/30 to-transparent z-0 translate-x-4" />
+                <div className="hidden lg:block absolute top-10 left-[calc(100%-0px)] w-full h-px bg-gradient-to-r from-btn/20 to-transparent z-0 translate-x-4" />
               )}
 
-              <div className="glass-panel rounded-3xl p-6 h-full space-y-4 border border-white/5 hover:border-btn/20 transition-all duration-300 hover:shadow-[0_0_32px_rgba(248,198,34,0.08)] relative z-10">
+              <div className="glass-panel glass-panel-hover rounded-3xl p-6 h-full space-y-4 border border-white/5 relative z-10">
                 {/* Step badge + icon */}
                 <div className="flex items-start gap-3">
                   <span className="text-xs font-black text-btn/50 tracking-widest mt-1">{s.step}</span>

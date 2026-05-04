@@ -12,7 +12,7 @@ interface IdeaCardProps {
 
 export function IdeaCard({ idea, actions }: IdeaCardProps) {
   return (
-    <div className="glass-panel rounded-3xl p-6 border border-white/5 hover:border-white/10 transition-all duration-300 flex flex-col h-full">
+    <div className="glass-panel glass-panel-hover rounded-3xl p-6 border border-white/5 flex flex-col h-full">
       <div className="flex justify-between items-start mb-4">
         <StatusBadge status={idea.status} />
         {idea.venture_score !== null && (

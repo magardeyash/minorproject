@@ -19,13 +19,14 @@ interface EvaluationReportProps {
 
 function RiskLevel({ level }: { level: "Low" | "Medium" | "High" }) {
   const cfg = {
-    Low:    { icon: CheckCircle2, color: "text-success", bg: "bg-success/10 border-success/20" },
-    Medium: { icon: AlertTriangle, color: "text-btn",    bg: "bg-btn/10 border-btn/20" },
+    Low:    { icon: CheckCircle2, color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+    Medium: { icon: AlertTriangle, color: "text-accent-yellow", bg: "bg-btn/10 border-btn/20" },
     High:   { icon: XCircle,      color: "text-error",   bg: "bg-error/10 border-error/20" },
   }[level]
+  
   const Icon = cfg.icon
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold border ${cfg.bg} ${cfg.color}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${cfg.bg} ${cfg.color}`}>
       <Icon className="w-3 h-3" />
       {level}
     </span>
@@ -214,19 +215,19 @@ export function EvaluationReportView({ report, ideaId, hasPostedRoles = false }:
 
       {/* Contributor Unlock */}
       {isUnlocked ? (
-        <div className="glass-panel rounded-2xl p-6 border border-success/20 bg-success/5">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-success/10 border border-success/20 flex items-center justify-center">
-              <Unlock className="w-5 h-5 text-success" />
+        <div className="glass-panel rounded-2xl p-6 border border-btn/20 bg-btn/5 shadow-[0_0_30px_rgba(16,185,129,0.05)]">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 rounded-xl bg-btn/10 border border-btn/20 flex items-center justify-center shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+              <Unlock className="w-6 h-6 text-btn" />
             </div>
             <div>
-              <h2 className="font-bold text-success">Contributors Unlocked!</h2>
-              <p className="text-xs text-success/70">Your Venture Score of {report.ventureScore} qualifies this idea for contributors.</p>
+              <h2 className="font-bold text-accent-yellow text-lg">Contributors Unlocked!</h2>
+              <p className="text-sm text-accent-muted">Your Venture Score of {report.ventureScore} qualifies this idea for contributors.</p>
             </div>
           </div>
           <Link
             href={contributorHref}
-            className="inline-flex items-center gap-2 bg-success/10 hover:bg-success/20 border border-success/20 text-success px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200"
+            className="btn-primary px-6 py-3 rounded-xl text-sm"
           >
             <Users className="w-4 h-4" />
             {contributorCta}

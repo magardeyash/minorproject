@@ -46,7 +46,7 @@ export function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t) => (
             <div key={t.name}
-              className="glass-panel rounded-3xl p-8 space-y-6 border border-white/5 hover:border-btn/20 hover:-translate-y-1 transition-all duration-300 hover:shadow-[0_0_40px_rgba(248,198,34,0.07)]">
+              className="glass-panel glass-panel-hover rounded-3xl p-8 space-y-6 border border-white/5">
               <Quote className="w-8 h-8 text-btn/40" />
               <p className="text-accent-muted leading-relaxed text-sm italic">&ldquo;{t.quote}&rdquo;</p>
               <div className="flex items-center gap-3 pt-2 border-t border-white/5">
@@ -68,7 +68,7 @@ export function Testimonials() {
             Ready to validate your idea?
           </p>
           <a href="/register"
-            className="inline-flex items-center gap-2 bg-btn hover:bg-btn-hover text-btn-text font-bold px-8 py-3.5 rounded-2xl shadow-[0_0_24px_rgba(248,198,34,0.3)] hover:shadow-[0_0_36px_rgba(248,198,34,0.5)] transition-all duration-300 whitespace-nowrap">
+            className="btn-primary px-8 py-3.5 whitespace-nowrap">
             Start Free Today →
           </a>
         </div>

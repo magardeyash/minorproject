@@ -25,8 +25,11 @@ const links = {
 // ─── Footer ────────────────────────────────────────────────────────────────
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-bg-secondary/40">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+    <footer className="relative border-t border-white/5 bg-bg-secondary/40 overflow-hidden">
+      {/* Ambient glow */}
+      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-btn/5 rounded-full blur-[100px] pointer-events-none" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand column */}
           <div className="lg:col-span-2 space-y-4">

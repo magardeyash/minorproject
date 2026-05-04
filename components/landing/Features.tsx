@@ -67,7 +67,7 @@ export function Features() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((f) => (
             <div key={f.title}
-              className="glass-panel group rounded-3xl p-7 space-y-5 border border-white/5 hover:border-btn/20 transition-all duration-300 hover:shadow-[0_0_40px_rgba(248,198,34,0.07)] hover:-translate-y-1">
+              className="glass-panel glass-panel-hover group rounded-3xl p-7 space-y-5 border border-white/5">
               {/* Icon */}
               <div className="w-12 h-12 rounded-2xl bg-btn/10 border border-btn/10 flex items-center justify-center group-hover:bg-btn/20 transition-colors duration-300">
                 <f.icon className="w-5 h-5 text-btn" />

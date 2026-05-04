@@ -20,13 +20,13 @@ export function AuthCard({ children, title, subtitle, className, icon }: AuthCar
         "rounded-3xl p-9 sm:p-11",
         "bg-card/80 backdrop-blur-2xl",
         "border-2 border-border-subtle",
-        "shadow-[0_8px_64px_0_rgba(0,0,0,0.55),0_0_0_1px_rgba(248,198,34,0.07)]",
+        "shadow-[0_8px_64px_0_rgba(0,0,0,0.55),0_0_0_1px_rgba(16,185,129,0.05)]",
         "ring-1 ring-white/5",
         className
       )}>
         {/* Icon + heading */}
         <div className="flex flex-col items-center text-center mb-8 space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-btn/15 border-2 border-btn/30 mb-1 flex items-center justify-center shadow-[0_0_24px_rgba(248,198,98,0.2)]">
+          <div className="w-14 h-14 rounded-2xl bg-btn/10 border-2 border-btn/20 mb-1 flex items-center justify-center shadow-[0_0_24px_rgba(16,185,129,0.15)]">
             {icon ?? (
               <svg className="w-6 h-6 text-btn" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

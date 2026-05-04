@@ -10,28 +10,28 @@ export function DataTable({
   emptyMessage?: string
 }) {
   return (
-    <div className="glass-panel rounded-2xl border border-white/5 overflow-hidden">
+    <div className="glass-panel rounded-2xl border border-white/5 overflow-hidden shadow-xl">
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left">
-          <thead className="text-xs text-accent-muted uppercase bg-black/20 border-b border-white/5">
+          <thead className="text-[10px] text-accent-muted uppercase bg-white/[0.02] border-b border-white/5 tracking-widest">
             <tr>
               {columns.map((col, i) => (
-                <th key={i} className="px-6 py-4 font-semibold">{col}</th>
+                <th key={i} className="px-6 py-5 font-bold">{col}</th>
               ))}
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-white/5">
             {data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-6 py-8 text-center text-accent-muted">
+                <td colSpan={columns.length} className="px-6 py-12 text-center text-accent-muted italic">
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
               data.map((row, i) => (
-                <tr key={i} className="border-b border-white/5 last:border-0 hover:bg-white/5 transition-colors">
+                <tr key={i} className="hover:bg-white/[0.02] transition-colors duration-200">
                   {row.map((cell, j) => (
-                    <td key={j} className="px-6 py-4 whitespace-nowrap">
+                    <td key={j} className="px-6 py-4.5 whitespace-nowrap text-white/80">
                       {cell}
                     </td>
                   ))}

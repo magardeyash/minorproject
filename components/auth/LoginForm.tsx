@@ -78,9 +78,9 @@ export function LoginForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full bg-btn hover:bg-btn-hover text-btn-text h-12 rounded-2xl font-bold transition-all hover:shadow-[0_0_20px_rgba(248,198,98,0.3)] active:scale-[0.98] flex items-center justify-center disabled:opacity-70 disabled:active:scale-100"
+          className="btn-primary w-full h-12"
         >
-          {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+          {isPending ? <Loader2 className="w-5 h-5 animate-spin text-btn-text" /> : "Sign In"}
         </button>
 
         <p className="text-center text-accent-muted text-sm pt-2">

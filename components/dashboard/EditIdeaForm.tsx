@@ -32,7 +32,7 @@ function Textarea({
         minLength={minLength}
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-btn/50 min-h-[110px] resize-y"
+        className="glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40 min-h-[110px] resize-y"
       />
     </div>
   )
@@ -112,7 +112,7 @@ export function EditIdeaForm({ idea }: { idea: DbIdea }) {
             setTitle(e.target.value)
             clearSuccess()
           }}
-          className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-btn/50"
+          className="glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40"
         />
       </div>
 
@@ -151,23 +151,28 @@ export function EditIdeaForm({ idea }: { idea: DbIdea }) {
               setIndustry(e.target.value)
               clearSuccess()
             }}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-btn/50"
+            className="glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40"
           />
         </div>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-accent-muted px-1">Current Stage</label>
-          <select
-            value={stage}
-            onChange={e => {
-              setStage(e.target.value as DbIdea["stage"])
-              clearSuccess()
-            }}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-btn/50"
-          >
-            <option value="idea">Just an Idea</option>
-            <option value="mvp">Building MVP</option>
-            <option value="growth">Early Growth</option>
-          </select>
+          <div className="relative">
+            <select
+              value={stage}
+              onChange={e => {
+                setStage(e.target.value as DbIdea["stage"])
+                clearSuccess()
+              }}
+              className="glass-input w-full rounded-2xl px-4 py-3 text-white appearance-none cursor-pointer"
+            >
+              <option value="idea" className="bg-card">Just an Idea</option>
+              <option value="mvp" className="bg-card">Building MVP</option>
+              <option value="growth" className="bg-card">Early Growth</option>
+            </select>
+            <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-accent-muted/40">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -189,7 +194,7 @@ export function EditIdeaForm({ idea }: { idea: DbIdea }) {
           type="button"
           onClick={resetForm}
           disabled={isPending}
-          className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 text-white/55 font-semibold hover:text-white hover:border-white/20 transition-colors disabled:opacity-50"
+          className="btn-secondary px-6 py-3"
         >
           <X className="w-4 h-4" />
           Cancel
@@ -197,9 +202,9 @@ export function EditIdeaForm({ idea }: { idea: DbIdea }) {
         <button
           type="submit"
           disabled={isPending}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-btn text-btn-foreground font-bold hover:bg-btn/90 transition-colors disabled:opacity-60"
+          className="btn-primary px-8 py-3"
         >
-          {isPending ? <Sparkles className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+          {isPending ? <Sparkles className="w-4 h-4 animate-spin text-btn-text" /> : <Save className="w-4 h-4" />}
           {isPending ? "Reassessing..." : "Save & Reassess"}
         </button>
       </div>

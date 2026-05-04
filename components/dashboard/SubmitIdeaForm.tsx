@@ -34,7 +34,7 @@ function Textarea({
         required={required}
         minLength={minLength}
         placeholder={placeholder}
-        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-btn/50 focus:ring-1 focus:ring-btn/20 min-h-[110px] resize-y transition-colors duration-200"
+        className="glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40 min-h-[110px] resize-y"
       />
     </div>
   )
@@ -183,7 +183,7 @@ export function SubmitIdeaForm() {
             name="industry"
             required
             placeholder="e.g. EdTech, FinTech, HealthTech, SaaS"
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/30 focus:outline-none focus:border-btn/50 focus:ring-1 focus:ring-btn/20 transition-colors duration-200"
+            className="glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40"
           />
         </div>
         <SelectInput
@@ -220,11 +220,11 @@ export function SubmitIdeaForm() {
         <button
           type="submit"
           disabled={isPending}
-          className="flex-1 bg-btn text-btn-foreground py-3.5 rounded-xl font-bold hover:bg-btn/90 transition-all duration-200 shadow-lg shadow-btn/20 disabled:opacity-60 flex items-center justify-center gap-2"
+          className="btn-primary flex-1 py-3.5"
         >
           {isPending ? (
             <>
-              <div className="w-4 h-4 border-2 border-btn-foreground/30 border-t-btn-foreground rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-btn-text/30 border-t-btn-text rounded-full animate-spin" />
               Submitting…
             </>
           ) : (

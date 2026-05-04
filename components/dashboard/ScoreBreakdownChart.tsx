@@ -18,9 +18,9 @@ interface ScoreBreakdownChartProps {
 }
 
 function barColor(score: number): string {
-  if (score >= 70) return "bg-success"
-  if (score >= 50) return "bg-btn"
-  return "bg-error"
+  if (score >= 70) return "bg-[#10B981]" // Emerald
+  if (score >= 50) return "bg-[#34D399]" // Mint
+  return "bg-[#EF4444]" // Red/Error
 }
 
 export function ScoreBreakdownChart({
