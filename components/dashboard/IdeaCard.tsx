@@ -3,7 +3,7 @@
 import React from "react"
 import { DbIdea } from "@/lib/db/ideas"
 import { StatusBadge } from "./StatusBadge"
-import { Building2, Activity, Zap, Target } from "lucide-react"
+import { Building2, Zap, Target } from "lucide-react"
 
 interface IdeaCardProps {
   idea: DbIdea

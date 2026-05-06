@@ -29,6 +29,7 @@ export async function updateProfileAction(
 
   const raw = {
     name: formData.get("name"),
+    startupName: formData.get("startupName"),
     skills,
     experience: formData.get("experience"),
   }
@@ -45,6 +46,7 @@ export async function updateProfileAction(
   try {
     await updateUserProfile(session.user.id, {
       name: parsed.data.name,
+      startupName: parsed.data.startupName,
       skills: parsed.data.skills,
       experience: parsed.data.experience,
     })

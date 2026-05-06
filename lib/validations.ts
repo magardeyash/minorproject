@@ -86,9 +86,8 @@ export type ApplicationInput = z.infer<typeof ApplicationSchema>
 // ─── Update Profile Schema ────────────────────────────────────────────────
 export const UpdateProfileSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50),
-  skills: z.array(z.string().min(1)).min(1, "Add at least one skill"),
-  experience: z.enum(["junior", "mid", "senior", "lead"], {
-    message: "Please select your experience level",
-  }),
+  startupName: z.string().max(200).optional().or(z.literal("")),
+  skills: z.array(z.string().min(1)).optional(),
+  experience: z.string().optional().or(z.literal("")),
 })
 export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>

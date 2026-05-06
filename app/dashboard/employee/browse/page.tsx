@@ -2,7 +2,7 @@ import { auth } from "@/auth"
 import { getPublicIdeas } from "@/lib/db/ideas"
 import { getRolesByIdea } from "@/lib/db/roles"
 import { getApplicationsByEmployee } from "@/lib/db/applications"
-import { Briefcase, Zap, Users, ChevronRight, ArrowUpRight, CheckCircle2 } from "lucide-react"
+import { Zap, Users, ChevronRight, ArrowUpRight, CheckCircle2 } from "lucide-react"
 import { DbRole } from "@/lib/db/roles"
 import Link from "next/link"
 
@@ -16,13 +16,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   Design:    "bg-pink-500/10 text-pink-300 border-pink-400/20",
   Finance:   "bg-green-500/10 text-green-300 border-green-400/20",
   Sales:     "bg-cyan-500/10 text-cyan-300 border-cyan-400/20",
-}
-
-const EXP_LABELS: Record<string, string> = {
-  junior: "Junior",
-  mid: "Mid-level",
-  senior: "Senior",
-  lead: "Lead / Head",
 }
 
 export default async function BrowseIdeasPage() {

@@ -59,7 +59,7 @@ export default async function ApplicationsPage() {
                     <FileText className="w-3 h-3" /> Message_Transmission
                   </div>
                   <p className="text-sm text-muted italic line-clamp-2 leading-relaxed">
-                    "{app.message || "No message included in protocol."}"
+                    &quot;{app.message || "No message included in protocol."}&quot;
                   </p>
                 </div>
               </div>

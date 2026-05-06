@@ -48,7 +48,7 @@ export function HowItWorks() {
           {/* Connecting Lines (Desktop) */}
           <div className="hidden lg:block absolute top-12 left-0 w-full h-px bg-white/5 -z-10" />
 
-          {steps.map((s, i) => (
+          {steps.map((s) => (
             <div key={s.step} className="group space-y-8 relative">
               {/* Step Index */}
               <div className="flex flex-col items-center lg:items-start space-y-4">
