@@ -2,91 +2,72 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Terminal } from "lucide-react"
 
-// ─── Navbar ────────────────────────────────────────────────────────────────
+import { Logo } from "@/components/ui/Logo"
+
 export function Navbar() {
   const [open, setOpen] = useState(false)
 
   const navLinks = [
-    { href: "#how-it-works", label: "How It Works" },
-    { href: "#features",     label: "Features"     },
-    { href: "#testimonials", label: "Testimonials"  },
+    { href: "#how-it-works", label: "Protocol" },
+    { href: "#features",     label: "Capabilities" },
+    { href: "#testimonials", label: "Network"  },
   ]
 
-  const logoContent = (
-    <div className="flex items-center gap-2.5" suppressHydrationWarning>
-      <Image
-        src="/logo/logo.png"
-        alt="VentureLens"
-        width={36}
-        height={36}
-        priority
-        className="h-9 w-auto object-contain"
-        suppressHydrationWarning
-      />
-      <span className="font-bold text-lg tracking-tight">
-        <span className="text-btn">Venture</span>
-        <span className="text-accent-yellow">Lens</span>
-      </span>
-    </div>
-  )
-
   return (
-    <nav className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-xl">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-
+    <nav className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-background/80 backdrop-blur-md">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="group">
-          {logoContent}
+        <Link href="/">
+          <Logo size="sm" />
         </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((l) => (
             <a key={l.href} href={l.href}
-              className="text-sm text-accent-muted hover:text-accent-yellow transition-colors duration-200">
+              className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-muted hover:text-primary transition-colors duration-300">
               {l.label}
             </a>
           ))}
         </div>
 
-        {/* CTA buttons */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-6">
           <Link href="/login"
-            className="text-sm px-4 py-2 rounded-xl border border-border-subtle text-accent-muted hover:text-accent-yellow hover:border-btn/40 transition-all duration-200">
+            className="text-[11px] font-mono font-bold uppercase tracking-[0.2em] text-muted hover:text-white transition-colors">
             Login
           </Link>
           <Link href="/register"
-            className="text-sm px-5 py-2 rounded-xl bg-btn text-btn-text font-semibold hover:bg-btn-hover shadow-[0_0_16px_rgba(248,198,34,0.25)] hover:shadow-[0_0_24px_rgba(248,198,34,0.4)] transition-all duration-200">
-            Get Started
+            className="btn-primary !px-5 !py-2 !text-[11px] font-mono tracking-widest uppercase">
+            Initialize
           </Link>
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden text-accent-yellow p-1" onClick={() => setOpen(!open)} aria-label="Toggle menu">
-          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        <button className="md:hidden text-primary p-1" onClick={() => setOpen(!open)}>
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      {/* Mobile dropdown */}
+      {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden border-t border-white/5 bg-background/95 backdrop-blur-xl px-6 py-4 space-y-3">
+        <div className="md:hidden border-t border-white/5 bg-background/95 backdrop-blur-xl px-6 py-8 space-y-6 animate-in fade-in slide-in-from-top-4">
           {navLinks.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-              className="block text-sm text-accent-muted hover:text-accent-yellow transition-colors py-1.5">
+              className="block text-sm font-mono font-bold uppercase tracking-widest text-muted hover:text-primary py-2 border-b border-white/5">
               {l.label}
             </a>
           ))}
-          <div className="pt-2 flex flex-col gap-2 border-t border-white/5">
+          <div className="pt-4 flex flex-col gap-4">
             <Link href="/login" onClick={() => setOpen(false)}
-              className="text-center text-sm py-2.5 rounded-xl border border-border-subtle text-accent-muted">
+              className="text-center font-mono text-sm uppercase tracking-widest text-muted border border-white/10 py-3 rounded">
               Login
             </Link>
             <Link href="/register" onClick={() => setOpen(false)}
-              className="text-center text-sm py-2.5 rounded-xl bg-btn text-btn-text font-semibold">
-              Get Started
+              className="btn-primary w-full font-mono text-sm uppercase tracking-widest">
+              Initialize
             </Link>
           </div>
         </div>

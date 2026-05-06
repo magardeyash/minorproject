@@ -16,8 +16,8 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
     const inputType = isPassword ? (showPassword ? "text" : "password") : type
 
     return (
-      <div className="space-y-1.5 flex flex-col w-full">
-        <label className="text-sm font-medium text-accent-muted pl-1">
+      <div className="space-y-2 flex flex-col w-full">
+        <label className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest pl-1">
           {label}
         </label>
         <div className="relative">
@@ -26,9 +26,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             type={inputType}
             ref={ref}
             className={cn(
-              "glass-input w-full rounded-2xl px-4 py-3 text-white placeholder:text-accent-muted/40 outline-none",
+              "glass-input w-full px-4 py-3 text-sm text-white placeholder:text-white/10 outline-none transition-all duration-300",
               isPassword && "pr-12",
-              error && "border-error focus:ring-error focus:border-error animate-shake",
+              error && "border-error focus:ring-error/20 focus:border-error animate-shake",
               className
             )}
           />
@@ -36,14 +36,14 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-accent-muted hover:text-accent-yellow transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-primary transition-colors"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           )}
         </div>
         {error && (
-          <p className="text-error text-xs font-medium pl-1 animate-in slide-in-from-top-1">
+          <p className="text-error text-[10px] font-mono uppercase tracking-tighter pl-1 animate-in slide-in-from-top-1">
             {error}
           </p>
         )}

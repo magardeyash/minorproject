@@ -18,11 +18,10 @@ interface SelectInputProps {
   defaultValue?: string
 }
 
-// ─── Styled select input matching the glass design system ─────────────────
 export function SelectInput({ label, name, value, onChange, options, placeholder = "Select an option", error, disabled, required, defaultValue }: SelectInputProps) {
   return (
-    <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-accent-muted pl-1">{label}</label>
+    <div className="space-y-2">
+      <label className="block text-[10px] font-mono font-bold text-muted uppercase tracking-widest pl-1">{label}</label>
       <div className="relative">
         <select
           name={name}
@@ -30,11 +29,11 @@ export function SelectInput({ label, name, value, onChange, options, placeholder
           onChange={onChange ? (e) => onChange(e.target.value) : undefined}
           disabled={disabled}
           required={required}
-          className={`w-full h-12 rounded-2xl px-4 pr-10 appearance-none
-            bg-bg-secondary/50 border backdrop-blur-md text-sm transition-all duration-300 outline-none text-white
+          className={`w-full h-11 px-4 pr-10 appearance-none
+            bg-background border backdrop-blur-md text-sm transition-all duration-300 outline-none text-white rounded-lg
             ${error
               ? "border-error focus:border-error"
-              : "border-border-subtle focus:border-focus focus:ring-1 focus:ring-focus"
+              : "border-card-border focus:border-primary/50 focus:ring-2 focus:ring-primary/10"
             }
             ${disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
         >
@@ -45,9 +44,9 @@ export function SelectInput({ label, name, value, onChange, options, placeholder
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted group-hover:text-primary transition-colors" />
       </div>
-      {error && <p className="text-xs text-error mt-1">{error}</p>}
+      {error && <p className="text-[10px] font-mono text-error uppercase tracking-tighter mt-1">{error}</p>}
     </div>
   )
 }

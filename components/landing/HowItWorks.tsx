@@ -4,65 +4,72 @@ const steps = [
   {
     icon: Lightbulb,
     step: "01",
-    title: "Submit Your Idea",
-    description: "Describe your startup concept — product, target market, and what problem you're solving.",
+    title: "Input Phase",
+    description: "Submit your startup concept — product, market, and problem statement to our AI ingestion engine.",
   },
   {
     icon: Brain,
     step: "02",
-    title: "AI Deep Analysis",
-    description: "Our AI evaluates market size, competition landscape, technical feasibility, and key risks in seconds.",
+    title: "Synthesis Phase",
+    description: "Our neural networks evaluate market dynamics, competition, and feasibility in sub-second cycles.",
   },
   {
     icon: BarChart3,
     step: "03",
-    title: "Receive Venture Score",
-    description: "Get a 0–100 viability score with a detailed breakdown across 4 dimensions.",
+    title: "Score Generation",
+    description: "Receive a 0–100 Venture Score with multidimensional breakdowns and risk vectors.",
   },
   {
     icon: Users,
     step: "04",
-    title: "Connect with Contributors",
-    description: "Browse matched founders, developers, and designers who want to build your vision with you.",
+    title: "Match Protocol",
+    description: "Activate contributor matching to connect with validated founders, developers, and designers.",
   },
 ]
 
-// ─── How It Works Section ──────────────────────────────────────────────────
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 px-6 relative overflow-hidden">
-      {/* Ambient */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[2px] bg-gradient-to-r from-transparent via-btn/30 to-transparent" />
-      </div>
-
+    <section id="how-it-works" className="py-32 px-6 relative overflow-hidden bg-white/[0.01]">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 space-y-4">
-          <p className="text-btn text-sm font-semibold uppercase tracking-widest">Simple Process</p>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-accent-yellow">How It Works</h2>
-          <p className="text-accent-muted max-w-xl mx-auto text-lg">
-            From idea to validated concept in four steps — all powered by AI.
+        <div className="text-center mb-24 space-y-6">
+          <div className="inline-block text-[10px] font-mono font-bold px-3 py-1 rounded border border-primary/20 bg-primary/5 text-primary uppercase tracking-[0.2em]">
+            The Protocol
+          </div>
+          <h2 className="text-5xl lg:text-6xl font-display text-white">
+            From Concept to <br className="hidden sm:block" /> 
+            <span className="italic text-primary">Validation</span> in Four Steps.
+          </h2>
+          <p className="text-muted max-w-xl mx-auto text-lg">
+            A high-precision workflow powered by advanced neural analysis.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((s, i) => (
-            <div key={s.step} className="relative group">
-              {/* Connector line */}
-              {i < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-10 left-[calc(100%-0px)] w-full h-px bg-gradient-to-r from-btn/30 to-transparent z-0 translate-x-4" />
-              )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+          {/* Connecting Lines (Desktop) */}
+          <div className="hidden lg:block absolute top-12 left-0 w-full h-px bg-white/5 -z-10" />
 
-              <div className="glass-panel rounded-3xl p-6 h-full space-y-4 border border-white/5 hover:border-btn/20 transition-all duration-300 hover:shadow-[0_0_32px_rgba(248,198,34,0.08)] relative z-10">
-                {/* Step badge + icon */}
-                <div className="flex items-start gap-3">
-                  <span className="text-xs font-black text-btn/50 tracking-widest mt-1">{s.step}</span>
-                  <div className="w-12 h-12 rounded-2xl bg-btn/10 border border-btn/10 flex items-center justify-center group-hover:bg-btn/20 transition-colors">
-                    <s.icon className="w-5 h-5 text-btn" />
+          {steps.map((s, i) => (
+            <div key={s.step} className="group space-y-8 relative">
+              {/* Step Index */}
+              <div className="flex flex-col items-center lg:items-start space-y-4">
+                <div className="w-12 h-12 rounded-full bg-background border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-primary group-hover:border-primary group-hover:shadow-[0_0_15px_rgba(16,185,129,0.3)] transition-all duration-500 z-10">
+                  {s.step}
+                </div>
+                
+                <div className="w-px h-12 bg-white/5 lg:hidden" />
+              </div>
+
+              <div className="space-y-4 text-center lg:text-left">
+                <div className="flex justify-center lg:justify-start">
+                  <div className="p-3 rounded-lg bg-white/5 border border-white/5 group-hover:bg-primary/5 group-hover:border-primary/20 transition-all duration-500">
+                    <s.icon className="w-6 h-6 text-muted group-hover:text-primary transition-colors" />
                   </div>
                 </div>
-                <h3 className="font-bold text-accent-yellow text-lg">{s.title}</h3>
-                <p className="text-accent-muted text-sm leading-relaxed">{s.description}</p>
+                
+                <h3 className="text-2xl font-display text-white">{s.title}</h3>
+                <p className="text-muted text-sm leading-relaxed font-sans">
+                  {s.description}
+                </p>
               </div>
             </div>
           ))}

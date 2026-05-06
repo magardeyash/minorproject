@@ -1,71 +1,60 @@
 import Link from "next/link"
-import Image from "next/image"
-import { Globe, Link2, Code2 } from "lucide-react"
+import { Globe, Link2, Code2, Terminal } from "lucide-react"
 
 const links = {
-  Product: [
-    { label: "How It Works", href: "#how-it-works" },
-    { label: "Features",     href: "#features"     },
+  Protocol: [
+    { label: "Synthesis", href: "#how-it-works" },
+    { label: "Validation",     href: "#features"     },
     { label: "Pricing",      href: "#"             },
     { label: "Changelog",    href: "#"             },
   ],
-  Company: [
-    { label: "About",   href: "#" },
-    { label: "Blog",    href: "#" },
-    { label: "Careers", href: "#" },
+  Network: [
+    { label: "Contributors",   href: "#" },
+    { label: "Founders",    href: "#" },
+    { label: "Ventures", href: "#" },
     { label: "Contact", href: "#" },
   ],
-  Legal: [
-    { label: "Privacy Policy",    href: "#" },
-    { label: "Terms of Service",  href: "#" },
+  Security: [
+    { label: "Privacy Protocol",    href: "#" },
+    { label: "Terms of Access",  href: "#" },
     { label: "Cookie Policy",     href: "#" },
   ],
 }
 
-// ─── Footer ────────────────────────────────────────────────────────────────
+import { Logo } from "@/components/ui/Logo"
+
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-bg-secondary/40">
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand column */}
-          <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2.5 group w-fit">
-              <Image
-                src="/logo/logo.png"
-                alt="VentureLens"
-                width={36}
-                height={40}
-                className="h-10 w-auto object-contain"
-              />
-              <span className="font-bold text-lg tracking-tight">
-                <span className="text-btn">Venture</span>
-                <span className="text-accent-yellow">Lens</span>
-              </span>
+    <footer className="border-t border-white/5 bg-background py-24">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
+          {/* Brand */}
+          <div className="lg:col-span-2 space-y-8">
+            <Link href="/">
+              <Logo />
             </Link>
-            <p className="text-accent-muted text-sm leading-relaxed max-w-xs">
-              AI-powered startup validation. Get your Venture Score, understand your competition,
-              and find your founding team — all before you build.
+            <p className="text-muted text-sm leading-relaxed max-w-xs font-sans">
+              High-precision AI validation for the next generation of commerce. 
+              Forge your vision into a validated venture.
             </p>
-            {/* Social links */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex gap-4">
               {[Globe, Link2, Code2].map((Icon, i) => (
                 <a key={i} href="#"
-                  className="w-9 h-9 rounded-xl border border-border-subtle text-accent-muted hover:text-accent-yellow hover:border-btn/40 flex items-center justify-center transition-all">
+                  className="w-10 h-10 rounded-lg border border-white/5 text-muted hover:text-primary hover:border-primary/20 flex items-center justify-center transition-all duration-300 bg-white/[0.02]">
                   <Icon className="w-4 h-4" />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Link columns */}
+          {/* Links */}
           {Object.entries(links).map(([category, items]) => (
-            <div key={category} className="space-y-4">
-              <h4 className="font-semibold text-accent-yellow text-sm">{category}</h4>
-              <ul className="space-y-2.5">
+            <div key={category} className="space-y-6">
+              <h4 className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-primary">{category}</h4>
+              <ul className="space-y-4">
                 {items.map((item) => (
                   <li key={item.label}>
-                    <a href={item.href} className="text-sm text-accent-muted hover:text-accent-yellow transition-colors">
+                    <a href={item.href} className="text-sm text-muted hover:text-white transition-colors duration-300 font-sans">
                       {item.label}
                     </a>
                   </li>
@@ -75,13 +64,13 @@ export function Footer() {
           ))}
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-accent-muted">
-            © {new Date().getFullYear()} VentureLens. All rights reserved.
-          </p>
-          <p className="text-xs text-accent-muted">
-            Built for founders, by founders. 🚀
+        <div className="mt-24 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-muted">
+            <Terminal className="w-3 h-3 text-primary" />
+            <span>© {new Date().getFullYear()} VentureLens // Build_Status: STABLE</span>
+          </div>
+          <p className="text-[10px] font-mono uppercase tracking-widest text-muted">
+            Validated for high-stakes ventures. 🚀
           </p>
         </div>
       </div>

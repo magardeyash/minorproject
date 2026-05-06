@@ -4,7 +4,7 @@ export function StatsCard({
   icon: Icon, 
   label, 
   value, 
-  color = "btn",
+  color = "primary",
   trend
 }: { 
   icon: React.ElementType
@@ -14,20 +14,20 @@ export function StatsCard({
   trend?: { value: string; positive: boolean }
 }) {
   return (
-    <div className="glass-panel rounded-3xl p-6 border border-white/5 space-y-3">
-      <div className={`w-10 h-10 rounded-xl bg-${color}/10 border border-${color}/20 flex items-center justify-center`}>
-        <Icon className={`w-5 h-5 text-${color}`} />
-      </div>
-      <div>
-        <div className="flex items-baseline gap-2">
-          <div className="text-2xl font-extrabold text-accent-yellow">{value}</div>
-          {trend && (
-            <span className={`text-xs font-semibold ${trend.positive ? 'text-success' : 'text-error'}`}>
-              {trend.positive ? '↑' : '↓'} {trend.value}
-            </span>
-          )}
+    <div className="card-forge">
+      <div className="flex justify-between items-start mb-6">
+        <div className={`w-10 h-10 rounded-lg bg-${color}/10 border border-${color}/20 flex items-center justify-center`}>
+          <Icon className={`w-5 h-5 text-${color}`} />
         </div>
-        <div className="text-xs text-accent-muted mt-0.5">{label}</div>
+        {trend && (
+          <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border ${trend.positive ? 'text-success border-success/20 bg-success/5' : 'text-error border-error/20 bg-error/5'}`}>
+            {trend.positive ? '+' : '-'}{trend.value}
+          </span>
+        )}
+      </div>
+      <div className="space-y-1">
+        <div className="text-4xl font-display font-medium text-white">{value}</div>
+        <div className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest">{label}</div>
       </div>
     </div>
   )

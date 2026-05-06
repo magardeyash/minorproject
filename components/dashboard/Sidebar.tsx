@@ -1,9 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
-import { LogOut, Menu, X, UserCircle, ChevronLeft, ChevronRight } from "lucide-react"
+import { LogOut, Menu, X, UserCircle, ChevronLeft, ChevronRight, Hash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { signOut } from "next-auth/react"
 import { saveActivePathAction } from "@/actions/nav"
@@ -12,7 +11,6 @@ export interface NavLink {
   label: string
   href: string
   icon: React.ReactNode
-  /** If true, only match this href exactly (not as a prefix). Default: false */
   exact?: boolean
 }
 
@@ -24,30 +22,18 @@ interface SidebarProps {
   onToggle?: () => void
 }
 
-/**
- * Determine if a nav link should be highlighted.
- *
- * Rules (in priority order):
- * 1. Exact match always wins.
- * 2. If `exact` flag is set on the link, only highlight on exact match.
- * 3. Otherwise highlight when the pathname starts with href + '/'
- *    BUT only if no *longer* link also matches (most-specific wins).
- */
 function resolveActive(links: NavLink[], pathname: string): string | null {
-  // Find all links whose href matches the current path
   const matches = links.filter((link) => {
-    if (pathname === link.href) return true                         // exact
-    if (link.exact) return false                                   // strict exact only
-    return pathname.startsWith(link.href + "/")                    // prefix
+    if (pathname === link.href) return true
+    if (link.exact) return false
+    return pathname.startsWith(link.href + "/")
   })
-
   if (matches.length === 0) return null
-
-  // Among matches, pick the most specific (longest href) to avoid
-  // parent routes stealing the highlight from children.
   matches.sort((a, b) => b.href.length - a.href.length)
   return matches[0].href
 }
+
+import { Logo } from "@/components/ui/Logo"
 
 export function Sidebar({ role, userName, links, isCollapsed = false, onToggle }: SidebarProps) {
   const pathname = usePathname()
@@ -58,15 +44,14 @@ export function Sidebar({ role, userName, links, isCollapsed = false, onToggle }
   const homeHref = role === "admin" ? "/admin/dashboard" : `/dashboard/${role}`
   const profileHref = role === "admin" ? "/admin/dashboard/profile" : `/dashboard/${role}/profile`
 
-  const roleColors = {
-    admin:    "text-error border-error/20 bg-error/10",
-    founder:  "text-btn border-btn/20 bg-btn/10",
-    employee: "text-success border-success/20 bg-success/10",
+  const roleConfigs = {
+    admin:    { label: "SYS_ADMIN", color: "text-error border-error/20 bg-error/5" },
+    founder:  { label: "FOUNDER_CORE", color: "text-primary border-primary/20 bg-primary/5" },
+    employee: { label: "CONTRIBUTOR", color: "text-accent border-accent/20 bg-accent/5" },
   }
 
   function handleNavClick(href: string) {
     setIsOpen(false)
-    // Persist to DB (non-blocking)
     startTransition(() => {
       saveActivePathAction(href)
     })
@@ -74,76 +59,51 @@ export function Sidebar({ role, userName, links, isCollapsed = false, onToggle }
 
   return (
     <>
-      {/* Mobile toggle */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-card border border-white/5 flex items-center justify-center"
+        className="lg:hidden fixed top-6 left-6 z-50 w-12 h-12 rounded-lg bg-card border border-white/10 flex items-center justify-center shadow-2xl"
       >
-        <Menu className="w-5 h-5" />
+        <Menu className="w-5 h-5 text-primary" />
       </button>
 
-      {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-background/80 backdrop-blur-md z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
       <aside className={`
-        fixed inset-y-0 left-0 z-50 glass-panel border-l-0 border-t-0 border-b-0
-        flex flex-col transform transition-all duration-300 lg:translate-x-0
-        ${isCollapsed ? "lg:w-20 w-64" : "w-64"}
+        fixed inset-y-0 left-0 z-50 bg-background border-r border-white/5
+        flex flex-col transform transition-all duration-500 ease-in-out lg:translate-x-0
+        ${isCollapsed ? "lg:w-20 w-72" : "w-72"}
         ${isOpen ? "translate-x-0" : "-translate-x-full"}
       `}>
-        {/* Logo */}
-        <div className={`p-6 flex items-center ${isCollapsed ? "justify-center" : "justify-between"}`}>
+        {/* Header */}
+        <div className="h-24 flex items-center px-6 justify-between border-b border-white/5">
           <Link
             href={homeHref}
             onClick={() => handleNavClick(homeHref)}
-            className="flex items-center gap-3"
           >
-            <Image
-              src="/logo/logo.png"
-              alt="VentureLens"
-              width={36}
-              height={40}
-              priority
-              className="h-9 w-auto object-contain"
-            />
-            {!isCollapsed && (
-              <span className="font-bold text-lg whitespace-nowrap">
-                <span className="text-btn">Venture</span><span className="text-accent-yellow">Lens</span>
-              </span>
-            )}
+            <Logo iconOnly={isCollapsed} size="sm" />
           </Link>
-          <button onClick={() => setIsOpen(false)} className="lg:hidden text-accent-muted">
+          <button onClick={() => setIsOpen(false)} className="lg:hidden text-muted hover:text-white">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Collapse toggle (Desktop) */}
-        {onToggle && (
-          <button
-            onClick={onToggle}
-            className="hidden lg:flex absolute -right-3 top-20 w-6 h-6 rounded-full bg-btn text-white items-center justify-center shadow-lg hover:scale-110 transition-transform z-50"
-          >
-            {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-          </button>
-        )}
-
-        {/* Role badge */}
+        {/* Status Line */}
         {!isCollapsed && (
-          <div className="px-6 mb-6">
-            <span className={`text-[10px] uppercase font-bold px-2 py-1 rounded-md border tracking-wider ${roleColors[role]}`}>
-              {role}
-            </span>
+          <div className="px-6 py-4 flex items-center gap-2">
+            <div className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border tracking-[0.2em] ${roleConfigs[role].color}`}>
+              {roleConfigs[role].label}
+            </div>
+            <div className="h-px flex-1 bg-white/5" />
           </div>
         )}
 
-        {/* Nav links */}
-        <nav className={`flex-1 px-4 space-y-1 overflow-y-auto ${isCollapsed ? "flex flex-col items-center" : ""}`}>
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto no-scrollbar">
           {links.map((link) => {
             const isActive = activeHref === link.href
 
@@ -153,54 +113,66 @@ export function Sidebar({ role, userName, links, isCollapsed = false, onToggle }
                 href={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className={`
-                  flex items-center gap-3 py-3 rounded-xl text-sm font-medium
-                  transition-all duration-150 group relative
-                  ${isCollapsed ? "px-3 justify-center" : "px-4"}
+                  flex items-center gap-4 py-3 rounded-lg text-sm font-medium
+                  transition-all duration-300 group relative
+                  ${isCollapsed ? "px-0 justify-center" : "px-4"}
                   ${isActive
-                    ? "bg-btn/15 text-accent-yellow border border-btn/20 shadow-sm"
-                    : "text-accent-muted hover:bg-white/5 hover:text-white border border-transparent"
+                    ? "bg-white/5 text-primary border border-white/10"
+                    : "text-muted hover:bg-white/[0.02] hover:text-white border border-transparent"
                   }
                 `}
                 title={isCollapsed ? link.label : ""}
               >
-                {/* Active indicator bar */}
                 {isActive && (
-                  <span className={`absolute left-0 top-1/2 -translate-y-1/2 bg-btn rounded-r-full ${isCollapsed ? "w-1 h-6" : "w-0.5 h-5"}`} />
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-primary rounded-r-full shadow-[0_0_8px_rgba(16,185,129,1)]" />
                 )}
 
-                {/* Icon wrapper */}
-                <span className={`shrink-0 transition-transform duration-150 ${isActive ? "text-btn" : "group-hover:scale-110"}`}>
+                <span className={`shrink-0 transition-all duration-300 ${isActive ? "text-primary scale-110" : "group-hover:text-white group-hover:scale-110"}`}>
                   {link.icon}
                 </span>
 
-                {!isCollapsed && link.label}
+                {!isCollapsed && (
+                  <span className="flex-1 font-mono text-[11px] uppercase tracking-widest">{link.label}</span>
+                )}
+                
+                {!isCollapsed && isActive && (
+                  <Hash className="w-3 h-3 text-primary/40 animate-pulse" />
+                )}
               </Link>
             )
           })}
         </nav>
 
-        {/* Footer */}
-        <div className="p-4 border-t border-white/5">
-          <div className={`flex flex-col ${isCollapsed ? "items-center gap-4" : "px-4 py-3"}`}>
+        {/* User / Footer */}
+        <div className="p-4 bg-white/[0.02] border-t border-white/5">
+          <div className={`flex flex-col ${isCollapsed ? "items-center gap-6" : "px-4 py-2"}`}>
             <Link
               href={profileHref}
               onClick={() => handleNavClick(profileHref)}
-              className={`flex items-center gap-2 text-xs text-accent-muted hover:text-accent-yellow transition-colors truncate ${isCollapsed ? "justify-center" : "mb-3"}`}
-              title={isCollapsed ? userName : ""}
+              className={`flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-muted hover:text-primary transition-all duration-300 ${isCollapsed ? "justify-center" : "mb-4"}`}
             >
               <UserCircle className="w-4 h-4 shrink-0" />
               {!isCollapsed && <span className="truncate">{userName}</span>}
             </Link>
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
-              className={`flex items-center gap-2 text-sm text-error/70 hover:text-error transition-colors ${isCollapsed ? "justify-center" : "w-full"}`}
-              title={isCollapsed ? "Sign out" : ""}
+              className={`flex items-center gap-3 text-[10px] font-mono uppercase tracking-widest text-error/60 hover:text-error transition-all duration-300 ${isCollapsed ? "justify-center" : "w-full"}`}
             >
               <LogOut className="w-4 h-4" />
-              {!isCollapsed && "Sign out"}
+              {!isCollapsed && "Terminate Session"}
             </button>
           </div>
         </div>
+
+        {/* Toggle */}
+        {onToggle && (
+          <button
+            onClick={onToggle}
+            className="hidden lg:flex absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-background border border-white/10 text-muted items-center justify-center hover:text-primary hover:border-primary/50 transition-all duration-500 z-50 shadow-xl"
+          >
+            {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+          </button>
+        )}
       </aside>
     </>
   )

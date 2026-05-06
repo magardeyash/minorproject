@@ -1,133 +1,125 @@
-import Link from "next/link"
-import { ArrowRight, Sparkles, TrendingUp } from "lucide-react"
+"use client"
 
-// ─── Hero Section ──────────────────────────────────────────────────────────
+import Link from "next/link"
+import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap } from "lucide-react"
+
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-      {/* Ambient gradient orbs */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-btn/10 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-accent-yellow/5 blur-[100px] animate-pulse [animation-delay:1.5s]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-card/40 blur-[80px]" />
-      </div>
+    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
+      {/* Background elements are handled by layout, but we add hero-specific glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 blur-[160px] rounded-full pointer-events-none" />
 
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
-        style={{ backgroundImage: "linear-gradient(#F8C622 1px,transparent 1px),linear-gradient(90deg,#F8C622 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
-
-      <div className="relative max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
-        {/* Left: Copy */}
-        <div className="text-center lg:text-left space-y-8">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-btn/10 border border-btn/20 rounded-full px-4 py-1.5 text-sm text-btn font-medium">
-            <Sparkles className="w-3.5 h-3.5" />
-            AI-Powered Startup Validation
+      <div className="relative max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-2 gap-12 items-center">
+        {/* Left: Content */}
+        <div className="space-y-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 text-xs font-mono text-primary uppercase tracking-widest animate-pulse-slow">
+            <Zap className="w-3 h-3" />
+            Venture Forge v2.0
           </div>
 
-          <h1 className="text-5xl lg:text-6xl xl:text-7xl font-extrabold leading-[1.08] tracking-tight">
-            Validate Your<br />
-            <span className="text-btn">Startup Idea</span><br />
-            <span className="text-accent-yellow">with AI</span>
+          <h1 className="text-6xl lg:text-7xl xl:text-8xl font-display font-medium leading-[0.9] tracking-tight text-white">
+            Forge the <br />
+            <span className="italic text-primary">Future</span> of <br />
+            Commerce.
           </h1>
 
-          <p className="text-lg text-accent-muted max-w-lg leading-relaxed">
-            Get a data-driven <strong className="text-accent-yellow">Venture Score</strong>, competitive analysis,
-            and connect with the right contributors — before you write a single line of code.
+          <p className="text-xl text-muted max-w-lg leading-relaxed font-sans">
+            Deep-tier AI validation for high-stakes ventures. Get your <span className="text-white font-semibold">Venture Score</span> and competitive roadmap in minutes.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <Link href="/register"
-              className="group inline-flex items-center justify-center gap-2 bg-btn hover:bg-btn-hover text-btn-text font-bold px-8 py-4 rounded-2xl shadow-[0_0_24px_rgba(248,198,34,0.35)] hover:shadow-[0_0_36px_rgba(248,198,34,0.5)] transition-all duration-300 text-base">
-              Get Started Free
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          <div className="flex flex-col sm:flex-row gap-5">
+            <Link href="/register" className="btn-primary group">
+              Initialize Project
+              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <a href="#how-it-works"
-              className="inline-flex items-center justify-center gap-2 border border-border-subtle text-accent-muted hover:text-accent-yellow hover:border-btn/40 font-semibold px-8 py-4 rounded-2xl transition-all duration-300 text-base">
-              See How It Works
-            </a>
+            <Link href="#how-it-works" className="btn-secondary">
+              View Protocol
+            </Link>
           </div>
 
-          {/* Social proof strip */}
-          <div className="flex items-center gap-6 justify-center lg:justify-start pt-2">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-yellow">500+</div>
-              <div className="text-xs text-accent-muted">Ideas Validated</div>
-            </div>
-            <div className="w-px h-8 bg-border-subtle" />
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-yellow">1,200+</div>
-              <div className="text-xs text-accent-muted">Contributors</div>
-            </div>
-            <div className="w-px h-8 bg-border-subtle" />
-            <div className="text-center">
-              <div className="text-2xl font-bold text-accent-yellow">92%</div>
-              <div className="text-xs text-accent-muted">Accuracy Rate</div>
-            </div>
+          {/* Precision Stats */}
+          <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/5">
+            {[
+              { label: "Validations", val: "12.4k", icon: ShieldCheck },
+              { label: "Growth Rate", val: "142%", icon: TrendingUp },
+              { label: "Efficiency", val: "99.8%", icon: Sparkles },
+            ].map((stat) => (
+              <div key={stat.label} className="space-y-1">
+                <div className="flex items-center gap-2 text-muted uppercase text-[10px] tracking-widest font-mono">
+                  <stat.icon className="w-3 h-3 text-primary" />
+                  {stat.label}
+                </div>
+                <div className="text-2xl font-display font-medium text-white">{stat.val}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right: Mock Venture Score Card */}
-        <div className="relative flex justify-center lg:justify-end">
-          <div className="glass-panel rounded-3xl p-8 w-full max-w-sm space-y-6 border border-btn/10">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-accent-muted font-medium uppercase tracking-widest">AI Analysis</p>
-                <h3 className="font-bold text-accent-yellow text-lg mt-0.5">EcoCart App</h3>
+        {/* Right: Technical Card */}
+        <div className="relative group">
+          <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full opacity-20 group-hover:opacity-40 transition-opacity" />
+          
+          <div className="relative glass-panel rounded-lg p-8 space-y-8 border-primary/20 shadow-2xl">
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <div className="text-[10px] font-mono text-primary uppercase tracking-[0.2em]">System Analysis</div>
+                <h3 className="text-2xl font-display text-white">Project: Aether-7</h3>
               </div>
-              <div className="w-10 h-10 rounded-2xl bg-btn/15 flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-btn" />
+              <div className="px-2 py-1 bg-primary/10 border border-primary/20 rounded text-[10px] font-mono text-primary">
+                STABLE_V4
               </div>
             </div>
 
-            {/* Score gauge */}
-            <div className="text-center py-2">
-              <div className="relative inline-flex items-center justify-center w-32 h-32">
-                <svg className="absolute" width="128" height="128" viewBox="0 0 128 128">
-                  <circle cx="64" cy="64" r="56" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="10" />
-                  <circle cx="64" cy="64" r="56" fill="none" stroke="#F8C622" strokeWidth="10"
-                    strokeDasharray={`${2 * Math.PI * 56 * 0.84} ${2 * Math.PI * 56}`}
-                    strokeDashoffset={2 * Math.PI * 56 * 0.25}
-                    strokeLinecap="round" transform="rotate(-90 64 64)"
-                    style={{ filter: "drop-shadow(0 0 8px rgba(248,198,34,0.6))" }} />
+            {/* Score Ring */}
+            <div className="flex justify-center">
+              <div className="relative w-48 h-48 flex items-center justify-center">
+                <svg className="absolute inset-0 w-full h-full -rotate-90">
+                  <circle cx="96" cy="96" r="88" className="stroke-white/5 fill-none" strokeWidth="4" />
+                  <circle cx="96" cy="96" r="88" className="stroke-primary fill-none animate-[dash_2s_ease-out]" strokeWidth="4"
+                    strokeDasharray={2 * Math.PI * 88}
+                    strokeDashoffset={2 * Math.PI * 88 * (1 - 0.94)}
+                    strokeLinecap="round" />
                 </svg>
-                <div className="text-center z-10">
-                  <div className="text-4xl font-black text-btn">84</div>
-                  <div className="text-xs text-accent-muted">/ 100</div>
+                <div className="text-center space-y-0">
+                  <div className="text-6xl font-display font-medium text-white">94</div>
+                  <div className="text-[10px] font-mono text-muted uppercase tracking-widest">Score</div>
                 </div>
               </div>
-              <p className="text-sm font-semibold text-success mt-1">High Viability ↑</p>
             </div>
 
-            {/* Metrics */}
-            {[
-              { label: "Market Size",   val: 92, color: "bg-success" },
-              { label: "Competition",   val: 68, color: "bg-btn"     },
-              { label: "Feasibility",   val: 81, color: "bg-success" },
-              { label: "Risk Level",    val: 45, color: "bg-error"   },
-            ].map((m) => (
-              <div key={m.label} className="space-y-1.5">
-                <div className="flex justify-between text-xs">
-                  <span className="text-accent-muted">{m.label}</span>
-                  <span className="font-semibold text-white">{m.val}%</span>
+            {/* Metrics Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Market Fit", val: 98 },
+                { label: "Scalability", val: 86 },
+                { label: "Innovation", val: 92 },
+                { label: "Risk Factor", val: 12 },
+              ].map((m) => (
+                <div key={m.label} className="space-y-2 p-3 rounded bg-white/5 border border-white/5">
+                  <div className="flex justify-between text-[10px] font-mono uppercase tracking-tighter">
+                    <span className="text-muted">{m.label}</span>
+                    <span className={m.label === "Risk Factor" ? "text-error" : "text-primary"}>{m.val}%</span>
+                  </div>
+                  <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                    <div className={`h-full ${m.label === "Risk Factor" ? "bg-error" : "bg-primary"}`} style={{ width: `${m.val}%` }} />
+                  </div>
                 </div>
-                <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <div className={`h-full rounded-full ${m.color} transition-all`} style={{ width: `${m.val}%` }} />
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
-            {/* Footer badge */}
-            <div className="bg-btn/10 border border-btn/20 rounded-2xl px-4 py-2.5 flex items-center gap-2">
-              <Sparkles className="w-3.5 h-3.5 text-btn flex-shrink-0" />
-              <span className="text-xs text-accent-muted">
-                <strong className="text-btn">3 contributors</strong> matched for this idea
-              </span>
+            <div className="text-[10px] font-mono text-muted text-center pt-4 border-t border-white/5">
+              ANALYSIS COMPLETE // REDIRECTING TO FORGE
             </div>
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes dash {
+          from { stroke-dashoffset: ${2 * Math.PI * 88}; }
+          to { stroke-dashoffset: ${2 * Math.PI * 88 * (1 - 0.94)}; }
+        }
+      `}</style>
     </section>
   )
 }

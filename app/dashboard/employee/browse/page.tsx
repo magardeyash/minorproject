@@ -30,11 +30,9 @@ export default async function BrowseIdeasPage() {
   const ideas = await getPublicIdeas()
   const userApps = await getApplicationsByEmployee(session!.user.id)
   
-  // Create sets for fast lookup
   const appliedRoleIds = new Set(userApps.map(a => a.role_requirement_id).filter(Boolean))
   const ideasWithGeneralApp = new Set(userApps.filter(a => !a.role_requirement_id).map(a => a.idea_id))
 
-  // Fetch roles for each idea and enrich
   const ideasWithRoles = await Promise.all(
     ideas.map(async idea => {
       const allRoles = await getRolesByIdea(idea.id).catch(() => [] as DbRole[])
@@ -47,128 +45,133 @@ export default async function BrowseIdeasPage() {
   )
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-accent-yellow">Browse Ideas</h1>
-        <p className="text-sm text-accent-muted mt-1">
-          Explore approved startup concepts and apply to contribute.
+    <div className="space-y-10 pb-20">
+      <div className="space-y-2">
+        <h1 className="text-4xl font-display text-white">Browse <span className="text-primary italic">Opportunities</span></h1>
+        <p className="text-sm font-mono text-muted uppercase tracking-[0.2em]">
+          Forge your future in high-stakes ventures.
         </p>
       </div>
 
       {ideasWithRoles.length === 0 ? (
-        <div className="glass-panel rounded-2xl p-10 text-center border border-white/5">
-          <p className="text-accent-muted">No ideas available right now. Check back later!</p>
+        <div className="card-forge p-16 text-center border-dashed">
+          <p className="text-muted font-mono uppercase tracking-widest text-sm">Zero_Ideas_Detected</p>
         </div>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-12">
           {ideasWithRoles.map(idea => {
             const openRoles = idea.roles.filter(r => !appliedRoleIds.has(r.id))
             const appliedRolesInThisIdea = idea.roles.filter(r => appliedRoleIds.has(r.id))
+            const isHighVenture = (idea.venture_score || 0) >= 85
 
             return (
-              <div key={idea.id} className="glass-panel rounded-[2rem] border border-white/10 overflow-hidden shadow-lg hover:shadow-accent-yellow/5 transition-all duration-500">
-                {/* Idea header */}
-                <div className="p-8 border-b border-white/5 bg-white/2">
-                  <div className="flex items-start justify-between gap-6 flex-wrap">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 flex-wrap mb-3">
-                        {idea.venture_score !== null && (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-success/10 border border-success/20 text-success text-[11px] font-black">
-                            <Zap className="w-3.5 h-3.5 fill-success" /> {idea.venture_score} SCORE
-                          </span>
-                        )}
-                        {idea.industry && (
-                          <span className="text-[10px] font-black uppercase tracking-widest text-white/40 px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg">{idea.industry}</span>
-                        )}
-                        <span className="text-[10px] font-black uppercase tracking-widest text-white/30 px-2.5 py-1 bg-white/5 border border-white/10 rounded-lg">{idea.stage}</span>
+              <div key={idea.id} className={`card-forge !p-0 border-white/5 transition-all duration-500 overflow-hidden ${isHighVenture ? 'ring-1 ring-primary/20 shadow-[0_0_50px_rgba(16,185,129,0.05)]' : ''}`}>
+                {/* Header Section */}
+                <div className="p-8 lg:p-10 border-b border-white/5 relative">
+                  {isHighVenture && (
+                    <div className="absolute top-0 right-0 p-4">
+                      <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded font-mono text-[9px] text-primary uppercase tracking-widest animate-pulse">
+                        <Zap className="w-3 h-3" /> High_Viability_Core
                       </div>
-                      <h2 className="text-2xl font-black text-white leading-tight tracking-tight">{idea.title}</h2>
-                      <p className="text-sm text-white/50 mt-2.5 line-clamp-2 leading-relaxed">{idea.description}</p>
                     </div>
-                    <div className="flex flex-col items-end gap-3 shrink-0">
-                      <span className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[11px] font-black border tracking-widest uppercase ${
-                        idea.roles.length > 0
-                          ? "bg-btn/10 text-btn border-btn/20"
-                          : "bg-white/5 text-white/40 border-white/10"
-                      }`}>
-                        <Users className="w-3.5 h-3.5" />
-                        {idea.roles.length} role{idea.roles.length !== 1 ? "s" : ""} open
-                      </span>
-                      {idea.roles.length === 0 && (
-                        idea.hasGeneralApp ? (
-                          <div className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-success/10 border border-success/20 text-success text-sm font-black">
-                            <CheckCircle2 className="w-4 h-4" /> Applied
+                  )}
+
+                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+                    <div className="space-y-4 max-w-2xl">
+                      <div className="flex items-center gap-3">
+                        {idea.venture_score !== null && (
+                          <div className="text-4xl font-display text-primary flex items-baseline gap-1">
+                            {idea.venture_score}<span className="text-sm font-mono text-muted">/100</span>
                           </div>
-                        ) : (
-                          <Link 
-                            href={`/dashboard/employee/browse/apply?ideaId=${idea.id}`}
-                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-btn text-btn-foreground text-sm font-black hover:scale-[1.02] active:scale-95 transition-all shadow-lg"
-                          >
-                            Apply to Join <ArrowUpRight className="w-4 h-4" />
-                          </Link>
-                        )
+                        )}
+                        <div className="h-4 w-px bg-white/10" />
+                        <span className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest">{idea.industry}</span>
+                        <div className="h-1 w-1 rounded-full bg-white/20" />
+                        <span className="text-[10px] font-mono font-bold text-primary uppercase tracking-widest italic">{idea.stage}</span>
+                      </div>
+                      
+                      <h2 className="text-3xl lg:text-4xl font-display text-white group-hover:text-primary transition-colors">{idea.title}</h2>
+                      <p className="text-muted text-sm leading-relaxed max-w-xl">{idea.description}</p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end gap-4">
+                      <div className="flex -space-x-2">
+                        {[1, 2, 3].map(i => (
+                          <div key={i} className="w-8 h-8 rounded-full bg-card border border-white/10 flex items-center justify-center">
+                            <Users className="w-3 h-3 text-muted" />
+                          </div>
+                        ))}
+                        <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-[10px] font-mono text-primary">
+                          +{idea.roles.length}
+                        </div>
+                      </div>
+                      
+                      {idea.roles.length === 0 && !idea.hasGeneralApp && (
+                        <Link 
+                          href={`/dashboard/employee/browse/apply?ideaId=${idea.id}`}
+                          className="btn-primary !px-8 !py-3 font-mono text-xs uppercase tracking-widest"
+                        >
+                          Initialize Join <ArrowUpRight className="ml-2 w-4 h-4" />
+                        </Link>
+                      )}
+                      {idea.hasGeneralApp && (
+                        <div className="flex items-center gap-2 px-4 py-2 border border-primary/20 bg-primary/5 text-primary rounded font-mono text-[10px] uppercase tracking-widest">
+                          <CheckCircle2 className="w-3 h-3" /> Protocol_Established
+                        </div>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* Roles */}
+                {/* Open Positions Grid */}
                 {(openRoles.length > 0 || appliedRolesInThisIdea.length > 0) && (
-                  <div className="p-8 space-y-6 bg-black/20">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-[11px] font-black text-white/30 uppercase tracking-[0.3em] flex items-center gap-2">
-                        <Briefcase className="w-4 h-4" /> Hiring Now
-                      </h3>
+                  <div className="p-8 lg:p-10 bg-white/[0.01]">
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="text-[10px] font-mono font-bold text-muted uppercase tracking-[0.3em]">Hiring_Matrix</div>
+                      <div className="h-px flex-1 bg-white/5" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Show Open Roles First */}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                       {openRoles.map(role => (
-                        <div key={role.id} className="group rounded-[1.5rem] border border-white/5 bg-white/2 p-6 hover:bg-white/5 hover:border-white/10 transition-all duration-300 flex flex-col justify-between h-full">
-                          <div className="space-y-4">
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 rounded-2xl bg-btn/10 border border-btn/20 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                                <Briefcase className="w-5 h-5 text-btn" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 flex-wrap mb-1">
-                                  <span className="font-bold text-base text-white">{role.role_title}</span>
-                                  {role.ai_suggested && (
-                                    <span className="px-1.5 py-0.5 rounded-full bg-btn/10 text-btn text-[9px] font-black border border-btn/20 tracking-tighter uppercase italic">✨ AI</span>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <span className={`px-2 py-0.5 rounded-lg border text-[10px] font-black uppercase tracking-wider ${CATEGORY_COLORS[role.category] ?? "bg-white/5 text-white/40 border-white/10"}`}>
+                        <div key={role.id} className="relative group/role rounded-lg border border-white/5 bg-white/[0.02] p-6 hover:border-primary/30 hover:bg-white/[0.04] transition-all duration-500">
+                          <div className="space-y-6">
+                            <div className="flex justify-between items-start">
+                              <div className="space-y-1">
+                                <h4 className="text-xl font-display text-white group-hover/role:text-primary transition-colors">{role.role_title}</h4>
+                                <div className="flex items-center gap-2">
+                                  <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border tracking-tighter ${CATEGORY_COLORS[role.category] || "text-muted border-white/10"}`}>
                                     {role.category}
                                   </span>
-                                  <span className="text-xs text-white/40 font-medium">{EXP_LABELS[role.experience_level] ?? role.experience_level}</span>
+                                  {role.ai_suggested && (
+                                    <span className="text-[9px] font-mono text-primary italic">AI_MATCHED</span>
+                                  )}
                                 </div>
                               </div>
+                              <div className="text-[10px] font-mono text-muted uppercase italic">{role.experience_level}</div>
                             </div>
-                            {role.description && <p className="text-sm text-white/30 line-clamp-2 leading-relaxed">{role.description}</p>}
-                          </div>
-                          <div className="pt-6 mt-6 border-t border-white/5">
+
+                            <p className="text-xs text-muted leading-relaxed line-clamp-2">{role.description}</p>
+                            
                             <Link 
                               href={`/dashboard/employee/browse/apply?ideaId=${idea.id}&roleId=${role.id}`}
-                              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-white/5 border border-white/10 text-white text-sm font-black hover:bg-btn hover:text-btn-foreground hover:border-transparent transition-all"
+                              className="flex items-center justify-between w-full p-3 rounded bg-white/5 border border-white/5 hover:border-primary/20 hover:text-primary transition-all group/btn"
                             >
-                              Apply for Role <ChevronRight className="w-4 h-4" />
+                              <span className="text-[10px] font-mono uppercase tracking-[0.2em]">View_Protocol</span>
+                              <ChevronRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
                             </Link>
                           </div>
                         </div>
                       ))}
 
-                      {/* Show Applied Roles as smaller/faded versions */}
                       {appliedRolesInThisIdea.map(role => (
-                        <div key={role.id} className="rounded-[1.5rem] border border-success/10 bg-success/2 p-6 flex flex-col justify-between h-full opacity-60">
-                          <div className="space-y-4">
-                            <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 rounded-2xl bg-success/10 border border-success/20 flex items-center justify-center shrink-0">
-                                <CheckCircle2 className="w-5 h-5 text-success" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <h4 className="font-bold text-base text-white/80">{role.role_title}</h4>
-                                <span className="text-[10px] font-black text-success uppercase tracking-widest">Application Sent</span>
-                              </div>
+                        <div key={role.id} className="rounded-lg border border-primary/10 bg-primary/[0.02] p-6 opacity-60">
+                          <div className="flex items-center gap-4 mb-4">
+                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                              <CheckCircle2 className="w-4 h-4 text-primary" />
+                            </div>
+                            <div className="space-y-0.5">
+                              <h4 className="font-display text-lg text-white/70">{role.role_title}</h4>
+                              <div className="text-[9px] font-mono text-primary uppercase tracking-widest">Status:Transmitted</div>
                             </div>
                           </div>
                         </div>

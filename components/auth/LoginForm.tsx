@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Loader2 } from "lucide-react"
+import { Loader2, KeyRound } from "lucide-react"
 import { AuthCard } from "@/components/auth/AuthCard"
 import { FormInput } from "@/components/ui/FormInput"
 import { login } from "@/actions/auth/login"
@@ -47,12 +47,16 @@ export function LoginForm() {
   }
 
   return (
-    <AuthCard title="Welcome Back" subtitle="Sign in to your account">
-      <form onSubmit={handleSubmit} className="space-y-5">
+    <AuthCard 
+      title="Aether Access" 
+      subtitle="Protocol_Authentication" 
+      icon={<KeyRound className="w-7 h-7 text-primary" />}
+    >
+      <form onSubmit={handleSubmit} className="space-y-6">
         <FormInput
-          label="Email Address"
+          label="Credentials:Email"
           type="email"
-          placeholder="you@example.com"
+          placeholder="id_042@venture.lens"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           error={errors.email}
@@ -60,7 +64,7 @@ export function LoginForm() {
         />
 
         <FormInput
-          label="Password"
+          label="Credentials:Password"
           type="password"
           placeholder="••••••••"
           value={formData.password}
@@ -70,25 +74,27 @@ export function LoginForm() {
         />
 
         {generalError && (
-          <div className="bg-error/10 text-error p-3 rounded-xl text-sm text-center border border-error/20 animate-in fade-in">
-            {generalError}
+          <div className="bg-error/5 text-error px-4 py-3 rounded border border-error/20 text-[10px] font-mono uppercase tracking-widest text-center animate-in fade-in">
+            Authentication_Failed: {generalError}
           </div>
         )}
 
         <button
           type="submit"
           disabled={isPending}
-          className="w-full bg-btn hover:bg-btn-hover text-btn-text h-12 rounded-2xl font-bold transition-all hover:shadow-[0_0_20px_rgba(248,198,98,0.3)] active:scale-[0.98] flex items-center justify-center disabled:opacity-70 disabled:active:scale-100"
+          className="btn-primary w-full h-12 font-mono text-sm uppercase tracking-widest disabled:opacity-50"
         >
-          {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+          {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : "Establish Session"}
         </button>
 
-        <p className="text-center text-accent-muted text-sm pt-2">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-btn hover:underline font-semibold transition-colors">
-            Sign up
+        <div className="text-center space-y-2">
+          <p className="text-[10px] font-mono text-muted uppercase tracking-[0.2em]">
+            No access protocol yet?
+          </p>
+          <Link href="/register" className="text-[10px] font-mono text-primary hover:text-primary-hover font-bold uppercase tracking-[0.3em] transition-colors">
+            Register_New_Entity
           </Link>
-        </p>
+        </div>
       </form>
     </AuthCard>
   )
